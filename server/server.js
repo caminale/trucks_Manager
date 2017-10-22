@@ -2,7 +2,7 @@ const app = require('express')();
 const API = require('json-api');
 const mongoose = require('mongoose');
 const APIError = API.types.Error;
-mongoose.connect('mongodb://localhost/truck-api');
+mongoose.connect('mongodb://localhost:27017/truck-api');
 
 const models = {
     User: require('./models/user').model,
