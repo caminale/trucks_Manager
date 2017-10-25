@@ -1,62 +1,78 @@
-const express = require('express');
-const path = require('path');
-const favicon = require('serve-favicon');
-const logger = require('morgan');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
+const app = require('express')();
+const API = require('json-api');
 const mongoose = require('mongoose');
+const APIError = API.types.Error;
+const logger = require('morgan');
+require('dotenv').config();
+
 mongoose.Promise = global.Promise;
 
-//import all of the routes
-const index = require('./routes/index');
-const users = require('./routes/users');
-const cities = require('./routes/cities');
-const trucks = require('./routes/trucks');
-
-const app = express();
-
 //connection to the database with promise
-mongoose.connect('mongodb://localhost/truck_api')
+mongoose.connect(process.env.MONGO)
     .then(() => console.log('connection succesful'))
     .catch((err) => console.error(err));
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+const models = {
+    User: require('./models/user').model,
+    Truck: require('./models/truck').model,
+    Fleet: require('./models/fleet').model,
+    City: require('./models/city').model,
+    Journey: require('./models/journey').model
+};
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+const registryTemplates = {
+    users: require('./models/user').registry,
+    trucks: require('./models/truck').registry,
+    fleets: require('./models/fleet').registry,
+    cities: require('./models/city').registry,
+    journeys: require('./models/journey').registry
+};
 
-// à revoir le node-restful le git : https://github.com/baugarten/node-restful
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+const adapter = new API.dbAdapters.Mongoose(models);
+const registry = new API.ResourceTypeRegistry(registryTemplates, {dbAdapter: adapter});
 
-//chargez le module de routage dans l’application
-app.use('/', index);
-app.use('/users', users);
-app.use('/cities', cities);
-app.use('/trucks', trucks);
+const docs = new API.controllers.Documentation(registry, {name: 'Truck API'});
+const controller = new API.controllers.API(registry);
+const front = new API.httpStrategies.Express(controller, docs);
 
+const apiReqHandler = front.apiRequest.bind(front);
+if (process.env.ENV === 'dev') {
+    app.use((req, res, next) => {
+        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+        res.header('Access-Control-Allow-Headers',
+            'Origin, X-Requested-With, Content-Type, Accept, Cache-Control');
+        res.header('Access-Control-Allow-Methods',
+            'POST, GET, PATCH, DELETE, OPTIONS');
+        next();
+    });
+    app.use(logger('dev'));
+}
+const db = [
+    'users',
+    'trucks',
+    'fleets',
+    'cities',
+    'journeys'
+];
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-    let err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+app.options('*', (req, res) => {
+    res.send();
 });
 
-// error handler
-app.use(function (err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.get('/api', front.docsRequest.bind(front));
 
-    // render the error page
-    res.status(err.status || 500);
-    res.render('error');
+app.route(`/api/:type(${db.join('|')})`).get(apiReqHandler).post(apiReqHandler)
+    .patch(apiReqHandler);
+
+app.route(`/api/:type(${db.join('|')})/:id`).get(apiReqHandler).patch(apiReqHandler)
+    .delete(apiReqHandler);
+
+app.route(`/api/:type(${db.join('|')})/:id/relationships/:relationship`)
+    .get(apiReqHandler).post(apiReqHandler).patch(apiReqHandler)
+    .delete(apiReqHandler);
+
+app.use((req, res, next) => {
+    front.sendError(new APIError(404, undefined, 'Not Found'), req, res);
 });
 
 module.exports = app;
