@@ -36,6 +36,7 @@ const controller = new API.controllers.API(registry);
 const front = new API.httpStrategies.Express(controller, docs);
 
 const apiReqHandler = front.apiRequest.bind(front);
+
 if (process.env.ENV === 'dev') {
     app.use((req, res, next) => {
         res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
@@ -47,6 +48,7 @@ if (process.env.ENV === 'dev') {
     });
     app.use(logger('dev'));
 }
+
 const db = [
     'users',
     'trucks',
