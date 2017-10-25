@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>Waypoints in directions</title>
+    <link href="asset/style.css" rel="stylesheet">
+    <link href="asset/Semantic-UI-CSS-master/semantic.css" rel="stylesheet">
+    
+  </head>
+  <body>
+
+<div class="ui menu inverted">
+    <a class="item active" href="map.html">Map</a>
+    <a class="item" href="tableuser.html">Tables</a>
+    <div class="right menu">
+      <a class="item" href="index.html">Sign out</a>
+      <a class="item">Help</a>
+    </div>
+</div>
+
+    <div id="map"></div>
+    <div id="right-panel">
+      <div>
+        <h1>IA</h1>
+        <b>How many ressources do you want to collect ?</b>
+        <div class="ui input">
+          <input type="text" placeholder="number of ressources">
+          &nbsp;&nbsp;<input type="submit" id="" class="ui positive basic button">
+        </div>
+        
+        </br>
+        </br>
+
+        <h1>Manual</h1>
+        <b>Start:</b>
+        <select id="start" class="ui search dropdown">
+          <option value="Paris, France">Paris Hangar</option>
+        </select>
+        
+        <br>
+        
+        <b>Waypoints:</b> <br>
+
+        <i>(Ctrl+Click or Cmd+Click for multiple selection)</i> <br>
+        
+        <select multiple id="waypoints">
+          <option value="Toulouse, France">Toulouse, France</option>
+          <option value="Marseille, France">Marseille, France</option>
+          <option value="Lille, France">Lille, France</option>
+          <option value="Grenoble, France">Grenoble, France</option>
+          <option value="Bordeaux, France">Bordeaux, France</option>
+          <option value="Strasbourg, France">Strasbourg, France</option>
+          <option value="Brest, France">Brest, France</option>
+          <option value="Lyon, France">Lyon, France</option>
+        </select></select> <br>
+        
+        <b>End:</b>
+        
+        <select id="end" class="ui search dropdown" >
+          <option value="Paris, France">Paris Hangar</option>
+        </select><br>
+        
+        
+        </br>
+        <input type="submit" id="submit" class="ui positive basic button">
+
+      </div>
+        <div id="directions-panel"></div>
+    </div>
+
+    <script src="asset/main.js"></script>
+    <script src="Semantic-UI-CSS-master/semantic.js"></script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXYsO8uJN74yw3OoGMwPIc8Otz28UbL3k&callback=initMap">
+    </script>
+
+  </body>
+</html>
