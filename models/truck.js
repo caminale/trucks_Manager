@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
+
 const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
-const truckSchema = Schema({
+const truckSchema = new Schema({
   user: {type: ObjectId, ref: 'User'},
   maxPayload: {type: Number, required: true, default: 0},
   isDelivering: {type: Boolean, required: true, default: false},
@@ -15,8 +16,8 @@ module.exports = {
   model: mongoose.model('Truck', truckSchema),
   registry: {
     urlTemplates: {
-      "self": "http://127.0.0.1:3000/api/trucks/{id}",
-      "relationship": "http://127.0.0.1:3000/api/trucks/{ownerId}/relationships/{path}"
+      self: `${process.env.BASE_URL}/trucks/{id}`,
+      relationship: `${process.env.BASE_URL}/trucks/${process.env.SUFFIX_URL}`
     }
   }
 };

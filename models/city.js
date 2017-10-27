@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const ObjectId = Schema.Types.ObjectId;
 
-const citySchema = Schema({
+const Schema = mongoose.Schema;
+
+const citySchema = new Schema({
   name: {type: String, required: true},
   resources: {type: Number, default: 0}
 });
@@ -12,8 +12,8 @@ module.exports = {
   model: mongoose.model('City', citySchema),
   registry: {
     urlTemplates: {
-      "self": "http://127.0.0.1:3000/api/cities/{id}",
-      "relationship": "http://127.0.0.1:3000/api/cities/{ownerId}/relationships/{path}"
+      self: `${process.env.BASE_URL}/cities/{id}`,
+      relationship: `${process.env.BASE_URL}/cities/${process.env.SUFFIX_URL}`
     }
   }
 };
