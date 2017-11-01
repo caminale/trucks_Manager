@@ -1,51 +1,87 @@
-# truck-front
+# trucks_Manager
+Projet client server 
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+# Contents
+* [docker](#docker)
+* [authentification](#authentification)
 
-## Prerequisites
 
-You will need the following things properly installed on your computer.
 
-* [Git](https://git-scm.com/)
-* [Node.js](https://nodejs.org/) (with NPM)
-* [Ember CLI](https://ember-cli.com/)
-* [Google Chrome](https://google.com/chrome/)
+# docker:
 
-## Installation
+installation mongo 
+------------------
 
-* `git clone <repository-url>` this repository
-* `cd truck-front`
-* `npm install`
 
-## Running / Development
+add our user to a group docker (sudo), you need to restart your computer.
 
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
-* Visit your tests at [http://localhost:4200/tests](http://localhost:4200/tests).
+```
+sudo usermod -a -G docker $USER
+```
+The first step is to pull the image from Docker Hub :
+```
+docker pull mongo:latest
+```
+Then need to specify to docker, a locale path /opt/mongodb/db to bind  /data/db (default stockage path for mongodb)
+```
+sudo mkdir -p /opt/mongodb/db 
+```
+Second step is to run the images, to create a container : 
 
-### Code Generators
+```
+docker run -p 27017:27017 -v /opt/mongodb/db:/data/db --name my-mongo-dev -d mongo mongod --auth
+```
+create user admin
+------------------
 
-Make use of the many generators for code, try `ember help generate` for more details
 
-### Running Tests
+If you want to create any user : 
 
-* `ember test`
-* `ember test --server`
+The docker exec command runs a new command in a running container, permit us to launch client mongo in the container.
 
-### Building
+```
+docker exec -it my-mongo-dev mongo
+```
+create a super-admin which permit to create/manage other user (writer/reader) 
+------------------
 
-* `ember build` (development)
-* `ember build --environment production` (production)
+```
+use admin
 
-### Deploying
+db.createUser({user: "camelot", pwd: "0205", roles: [{role: "userAdminAnyDatabase", db: "admin"}]})
 
-Specify what it takes to deploy your app.
+```
+add user for our db(w+r) :
+------------------
 
-## Further Reading / Useful Links
+first you need to launch mongo client with the super-admin :
+```
+mongo <ip_server> -u siteUserAdmin -p unPasswordQuiVaBien --authenticationDatabase admin
+```
+Then we switch to our db, which we want to use here truck-api
 
-* [ember.js](https://emberjs.com/)
-* [ember-cli](https://ember-cli.com/)
-* Development Browser Extensions
-  * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
-  * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
+```
+use truck-api
+
+db.createUser({user: "camelot", pwd: "0205", roles: ["dbOwner"]})
+
+```
+commands
+------------------
+
+
+
+In order to delete all images, use the given command
+```
+docker rmi $(docker images -q)
+```
+
+In order to delete all containers, use the given command
+```
+docker rm $(docker ps -a -q)
+```
+
+# authentification:
+
+This tuto help us a lot for the authentification : 
+[ici](https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens)
