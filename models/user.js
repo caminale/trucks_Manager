@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 const userSchema = new Schema({
-    name: {type: String, required: true, trim: true},
+    name: {type: String, required: true, trim: true, unique: true},
     admin: Boolean,
     password: {type: String, required: false, trim: true},
     fleetList: [{type: ObjectId, ref: 'Fleet'}],

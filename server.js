@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const logger = require('morgan');
 require('dotenv').config();
 const auth = require ('./routes/authenticate');
+const available_User = require ('./routes/availableUser');
+
 const APIError = API.types.Error;
 mongoose.connect(process.env.DB_URL);
 
@@ -63,13 +65,14 @@ app.options('*', (req, res) => {
 });
 
 app.get('/api', front.docsRequest.bind(front));
+
 //permit to create easily in server side user
 app.get('/setup', function(req, res) {
 
     // create a sample user
     const user = new models.User({
         name: 'camelot',
-        password: '0205',
+        password: '02051995',
         admin: true
 
     });
@@ -81,6 +84,19 @@ app.get('/setup', function(req, res) {
         res.json({ success: true });
     });
 });
+app.post('/register', function (req, res) {
+    let user =  {
+        name: req.body.name,
+        password: req.body.password
+    };
+
+    console.log("le user est : "+user);
+    user.save(function(err) {
+        if (err) throw err;
+
+    });
+});
+
 
 app.route(`/api/:type(${db.join('|')})`).get(apiReqHandler).post(apiReqHandler)
     .patch(apiReqHandler);
@@ -95,6 +111,10 @@ app.route(`/api/:type(${db.join('|')})/:id/relationships/:relationship`)
 
 //route defined for auth' need to be change in client in authentificator, if changed
 app.use('/',auth);
+
+//route pemit to check if a user already exist
+app.use('/',available_User);
+
 
 app.use((req, res) => {
     front.sendError(new APIError(404, undefined, 'Not Found'), req, res);
