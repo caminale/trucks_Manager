@@ -7,6 +7,7 @@ const models = {
 // route to check is a user is available (POST http://localhost:8080/authenticate)
 apiRoutes.post('/availableUser', function(req, res) {
     //search the user in function of the username entered
+
     models.User.findOne({
         name: req.body.name
     }, function(err, user) {
