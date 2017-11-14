@@ -1,11 +1,14 @@
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
-
+const positionSchema = new Schema({
+    latitude: String,
+    longitude: String
+});
 const citySchema = new Schema({
     name: {type: String, required: true},
     ressources: {type: Number, default: 0},
-    position: [String],
+    position: positionSchema,
 });
 
 module.exports = {
