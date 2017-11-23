@@ -15,7 +15,7 @@
     "express": "^4.16.2",
     "json-api": "*",
     "jsonwebtoken": "^8.1.0",
-    "mongoose": "^4.12.5",
+    "mongoose": "^4.13.0",
     "morgan": "^1.9.0",
     "passport": "^0.4.0",
     "passport-http-bearer": "^1.0.1"

@@ -8,8 +8,7 @@ const userSchema = new Schema({
     admin: Boolean,
     password: {type: String, required: false, trim: true},
     fleetList: [{type: ObjectId, ref: 'Fleet'}],
-    truckList: [{type: ObjectId, ref: 'Truck'}],
-
+    trucks: [{type: String}]
 });
 
 module.exports = {

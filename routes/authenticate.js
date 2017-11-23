@@ -30,7 +30,7 @@ apiRoutes.post('/auth', function(req, res) {
                 let token =jwt.sign(payload, "jwt_secret");
 
                 // return the information including token as JSON
-                res.status(200).send({"access_token": token});
+                res.status(200).send({"access_token": token, "user_id":user._id});
             }
         }
     });

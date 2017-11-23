@@ -4,11 +4,11 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 const truckSchema = new Schema({
+  name: {type: String},
   user: {type: ObjectId, ref: 'User'},
-  maxPayload: {type: Number, required: true, default: 0},
-  isDelivering: {type: Boolean, required: true, default: false},
-  currentTown: {type: ObjectId, ref: 'City', required: true},
-  fleetList: [{type: ObjectId, ref: 'Fleet'}]
+  delivering: {type: Boolean, default: false},
+  // currentCity: {type: ObjectId, ref: 'City'}
+
 });
 
 module.exports = {
