@@ -1,13 +1,14 @@
 const app = require('express')();
 const API = require('json-api');
 const mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
 const logger = require('morgan');
 require('dotenv').config();
 const auth = require ('./routes/authenticate');
 const available_User = require ('./routes/availableUser');
 
 const APIError = API.types.Error;
-//mongoose.connect(process.env.DB_URL);
+mongoose.connect(process.env.DB, {useMongoClient: true});
 
 const bodyParser = require("body-parser");
 
