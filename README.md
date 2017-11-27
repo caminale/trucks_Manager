@@ -10,6 +10,19 @@ Projet client server
 
 # docker:
 
+installation project
+------------------
+To start the back :
+```
+cd <project-name>
+docker-compose up
+```
+if docker compose is not installed click [here](https://docs.docker.com/compose/install/)
+
+connection to robo3t: 
+```
+address : localhost:27027
+```
 installation mongo 
 ------------------
 
@@ -86,4 +99,6 @@ docker rm $(docker ps -a -q)
 
 This tuto help us a lot for the authentification : 
 [ici](https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens)
+
+
 
