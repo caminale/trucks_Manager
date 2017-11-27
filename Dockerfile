@@ -4,11 +4,11 @@ WORKDIR /usr/src/app
 
 COPY package.json .
 
-RUN yarn
+RUN yarn install
 
 COPY . .
 COPY .env_docker .env
 
-EXPOSE 8080
+EXPOSE 3000
 
 CMD ["yarn", "start"]

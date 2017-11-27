@@ -7,7 +7,7 @@ const auth = require ('./routes/authenticate');
 const available_User = require ('./routes/availableUser');
 
 const APIError = API.types.Error;
-mongoose.connect(process.env.DB_URL);
+//mongoose.connect(process.env.DB_URL);
 
 const bodyParser = require("body-parser");
 

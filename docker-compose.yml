@@ -1,0 +1,18 @@
+version: '3'
+services:
+  api:
+    build: .
+    depends_on:
+      - db
+    environment:
+      - DB=mongodb://db:27017/truck-api
+      - PORT=8080
+      - BASE_URL=http://127.0.0.1:8080/api
+      - SUFFIX_URL={ownerId}/relationships/{path}
+    ports:
+      - "1337:8080"
+
+  db:
+   image: mongo
+   ports:
+     - "27027:27017"
