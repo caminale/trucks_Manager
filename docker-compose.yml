@@ -1,7 +1,7 @@
 version: '3'
 services:
   api:
-    build: .
+    build: ./trucks-api-server
     depends_on:
       - db
     environment:
@@ -11,6 +11,14 @@ services:
       - SUFFIX_URL={ownerId}/relationships/{path}
     ports:
       - "1337:8080"
+
+  finance:
+    build: ./microservice-finance
+    dns: 8.8.8.8
+    depends_on:
+      - db
+    environment:
+      - DB=mongodb://db:27017/yahoo-finance
 
   db:
    image: mongo

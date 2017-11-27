@@ -7,7 +7,6 @@ COPY package.json .
 RUN yarn install
 
 COPY . .
-COPY .env_docker .env
 
 EXPOSE 3000
 
