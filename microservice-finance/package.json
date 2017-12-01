@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "bluebird": "^3.5.1",
+    "dotenv": "^4.0.0",
     "mongoose": "^4.13.5",
     "yahoo-finance": "^0.3.5"
   },
