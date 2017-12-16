@@ -219,11 +219,11 @@ const mainAlgo = async () => {
       arrSortParent = score(arrParrent, distancesCities);
       arrParentValueDist = selectionChromo(arrSortChild, arrSortParent);
       // console.log(arrParentValueDist);
-      console.log(`iteration N° ${i}`);
+      // console.log(`iteration N° ${i}`);
       bestChromos = manageBestChromos(arrParentValueDist, bestChromos);
       if(-marginError < (arrParrent[1][nbElmMax] - calculateAverage(bestChromos)) && (arrParrent[1][nbElmMax] - calculateAverage(bestChromos)) < marginError && i > maxIteration/2) {
         console.log(arrParrent[1][nbElmMax] - calculateAverage(bestChromos));
-        console.log(`average triggered`);
+        // console.log(`average triggered`);
 
         i = maxIteration;
       }
