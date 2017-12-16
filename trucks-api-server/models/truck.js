@@ -6,8 +6,7 @@ const ObjectId = Schema.Types.ObjectId;
 const truckSchema = new Schema({
   name: {type: String},
   user: {type: ObjectId, ref: 'User'},
-  delivering: {type: Boolean, default: false},
-  // currentCity: {type: ObjectId, ref: 'City'}
+  delivering: {type: Boolean, default: false}
 
 });
 
