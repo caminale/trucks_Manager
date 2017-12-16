@@ -1,6 +1,8 @@
 const bluebird = require('bluebird');
 const distance = bluebird.promisifyAll(require('google-distance'));
-distance.apiKey = 'AIzaSyCqvbNoFYL4PoqXagVY9vK1RMJpkWFBCAs';
+require('dotenv').config();
+
+distance.apiKey = process.env.API_KEY_GOOGLE;
 
 
 const nbElmMax = 6;
@@ -195,7 +197,7 @@ const cleanArray = array => {
   }
   return out;
 };
-const main = async () => {
+const mainAlgo = async () => {
   let i = 0;
   const arr = preproc(db);
   let  arrParrent = init(arr);
@@ -236,8 +238,7 @@ const main = async () => {
   console.log(arrParentValueDist[0]);
   // console.log(arrayFull);
 };
-
-main();
 // > qsd.sort((a,c) => (a[0] < c[0]) ? -1 : 1)
 // distance = distance[[ville1, ville2].sort().join('')];
 // distanceChromo += parseInt([distancesCities].filter((dist) => departure+arrival === dist[0])[1]);
+module.exports = {mainAlgo};

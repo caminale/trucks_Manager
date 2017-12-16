@@ -5,5 +5,10 @@
   "license": "MIT",
   "scripts": {
     "start": "node index.js"
+  },
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "google-distance": "^1.0.1",
+    "mongoose": "^4.13.7"
   }
 }
