@@ -1,15 +1,15 @@
 const cities = require("all-the-cities");
 const {City} = require('../models/city');
 const {Stock} = require('../models/stocks');
+require('dotenv').config();
 
 
 
 
 const  createDBcities = async () => {
-    let citiesFR = {};
 // return 127 cities
-    citiesFR = cities.filter(city => {
-        if (city.country.match('FR') && city.population > 50000) {
+    cities.filter(city => {
+        if (city.country.match('FR') && city.population > process.env.POPULATION) {
             let position = {
                 latitude: city.lat,
                 longitude: city.lon

@@ -5,6 +5,8 @@ Projet client server
 # Contents
 * [docker](#docker)
 * [authentification](#authentification)
+* [micro-services](#micro-services)
+
 
 
 
@@ -17,6 +19,13 @@ To start the back :
 cd <project-name>
 docker-compose up
 ```
+It will launch 2 microservice : 
+    - yahoo-finance
+    - algo-genetic
+    - serve connected to the front
+    
+    
+    
 if docker compose is not installed click [here](https://docs.docker.com/compose/install/)
 
 connection to robo3t: 
@@ -96,9 +105,28 @@ docker rm $(docker ps -a -q)
 ```
 
 # authentification:
-
-This tuto help us a lot for the authentification : 
+We use simple-auth addon for Ember :
+[ici](https://github.com/simplabs/ember-simple-auth)
+The backend send a unique token for each users, we catch it in the front-end and the ember-simple-auth addon manage the authentification, 
+i.e pemit to redirect the user on private route.
+ 
+For more explanation you can take a look at this tuto, (it helped us a lot for the authentification) : 
 [ici](https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens)
 
 
 
+#micro-services
+
+ yahoo-finance
+------------------
+In this micro-service we catch data from :
+[yahoo-finance](https://www.npmjs.com/package/yahoo-finance)
+
+And we associated this data to cities ressources.
+
+algo-genetic
+------------------
+
+In this micro-service there is an genetic algorithm, permit to optimize the travel from a  departure
+in function of distance and ressources in each cities. The purpose of this algorithm is to find the shortest path with a maximum
+amount of ressources. 

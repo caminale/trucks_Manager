@@ -1,6 +1,7 @@
 const bluebird = require('bluebird');
 const distance = bluebird.promisifyAll(require('google-distance'));
 require('dotenv').config();
+const {City} = require('../models/city');
 
 distance.apiKey = process.env.API_KEY_GOOGLE;
 
@@ -199,6 +200,17 @@ const cleanArray = array => {
 };
 const mainAlgo = async () => {
   let i = 0;
+    let reformatCities ={};
+
+    City.find({}).then((cities)=>{
+
+    for(let i = 0; i < cities.length; i++) {
+        const name = cities[i].name;
+        console.log(cities[i].name);
+        reformatCities.push(reformatCities.keys(name));
+        // reformatCities.add(reformatCities.keys(name));
+    }
+  });
   const arr = preproc(db);
   let  arrParrent = init(arr);
   let bestChromos = [];
