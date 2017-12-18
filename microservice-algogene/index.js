@@ -13,5 +13,6 @@ City.find({})
     .then(city => {
         if (city === [] || !city || city.length === 0) {
             createDBcities();
+            console.log('yolo'+city.length);
         }
     });

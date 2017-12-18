@@ -1,5 +1,6 @@
 const cities = require("all-the-cities");
 const {City} = require('../models/city');
+const {Stock} = require('../models/stocks');
 
 
 
@@ -13,14 +14,20 @@ const  createDBcities = async () => {
                 latitude: city.lat,
                 longitude: city.lon
             };
-            return new City({
-                name: city.name,
-                position: position,
-                population: city.population,
-                country: city.country,
-                ressources: 200
-            }).save();
+            Stock.find({})
+                .then(stocks => {
+                    const x = Math.floor((Math.random() * stocks.length) + 1);
+
+                    return new City({
+                        name: city.name,
+                        position: position,
+                        population: city.population,
+                        country: city.country,
+                        ressources: stocks[x].value
+                    }).save();
+                });
         }
     });
 };
 module.exports = {createDBcities};
+

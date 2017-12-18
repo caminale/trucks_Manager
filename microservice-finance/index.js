@@ -10,7 +10,25 @@ mongoose.connect(process.env.DB, {useMongoClient: true});
 const stocks = [
     'BNP.PA',
     'FP.PA',
-
+    'TSLA',
+    'AAPL',
+    'GOOG',
+    'MSFT',
+    'IBM',
+    'AMZN',
+    'ORCL',
+    'INTC',
+    'QCOM',
+    'FB',
+    'CSCO',
+    'SAP',
+    'TSM',
+    'BIDU',
+    'HPQ',
+    'TXN',
+    'ERIC',
+    'ASML',
+    'CAJ',
 ];
 
 const getValue = async symbol => {
