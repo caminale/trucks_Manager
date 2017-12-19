@@ -204,7 +204,7 @@ const mainAlgo = async () => {
 
     City.find({}).then((cities)=>{
 
-    for(let i = 0; i < cities.length; i++) {
+    for(let i = 0; i < 10; i++) {
         const name = cities[i].name;
         console.log(cities[i].name);
         reformatCities.push(reformatCities.keys(name));
@@ -231,7 +231,7 @@ const mainAlgo = async () => {
       arrSortParent = score(arrParrent, distancesCities);
       arrParentValueDist = selectionChromo(arrSortChild, arrSortParent);
       // console.log(arrParentValueDist);
-      // console.log(`iteration N° ${i}`);
+      console.log(`iteration N° ${i}`);
       bestChromos = manageBestChromos(arrParentValueDist, bestChromos);
       if(-marginError < (arrParrent[1][nbElmMax] - calculateAverage(bestChromos)) && (arrParrent[1][nbElmMax] - calculateAverage(bestChromos)) < marginError && i > maxIteration/2) {
         console.log(arrParrent[1][nbElmMax] - calculateAverage(bestChromos));
@@ -246,11 +246,12 @@ const mainAlgo = async () => {
     console.log(err);
   }
 
-  console.log(`Meilleur chemin`);
-  console.log(arrParentValueDist[0]);
+  // console.log(`Meilleur chemin`);
+  // console.log(arrParentValueDist[0]);
+  return arrParentValueDist[0];
   // console.log(arrayFull);
 };
 // > qsd.sort((a,c) => (a[0] < c[0]) ? -1 : 1)
 // distance = distance[[ville1, ville2].sort().join('')];
 // distanceChromo += parseInt([distancesCities].filter((dist) => departure+arrival === dist[0])[1]);
-module.exports = {mainAlgo};
+module.exports = {mainAlgo, nbElmMax};
