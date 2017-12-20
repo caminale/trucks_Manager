@@ -10,13 +10,8 @@ const journeySchema = new Schema({
   ressources: [{type: Number}]
 });
 
+const Journey = mongoose.model('Journey', journeySchema);
+
 module.exports = {
-  schema: journeySchema,
-  model: mongoose.model('Journey', journeySchema),
-  registry: {
-    urlTemplates: {
-      self: `${process.env.BASE_URL}/journeys/{id}`,
-      relationship: `${process.env.BASE_URL}/journeys/${process.env.SUFFIX_URL}`
-    }
-  }
+  Journey
 };

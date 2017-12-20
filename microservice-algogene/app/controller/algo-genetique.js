@@ -1,26 +1,28 @@
+const bluebird = require('bluebird');
+const distance = bluebird.promisifyAll(require('google-distance'));
 require('dotenv').config();
 const {City} = require('../models/city');
 const {Distance} = require('../models/distance');
 
 const nbElmMax = 6;
-const nbChromosomes = 20;
+const nbChromosomes = 10;
 const meterMax = 2000000;
 const rapportParent = 0.6;
 const maxIteration = 100;
 const penality = 1/5000;// 1 ressource pour 5 km
-const marginError = 10;
-// const db = {
-//     valence: 100,
-//     lyon: 20,
-//     marseille: 50,
-//     bordeaux: 500,
-//     montpelier: 880,
-//     strasbourg: 999,
-//     brest: 25,
-//     nice: 70,
-//     hendaye: 115,
-//     lille: 220
-// };
+const marginError = 20;
+const db = {
+  valence: 100,
+  lyon: 20,
+  marseille: 50,
+  bordeaux: 500,
+  montpelier: 880,
+  strasbourg: 999,
+  brest: 25,
+  nice: 70,
+  hendaye: 115,
+  lille: 220
+};
 
 const preproc = (db) => {
     const arr = [];
@@ -103,90 +105,90 @@ const score = (childs, distancesCities) => {
     calculatePenalties(childs);
     return res.map(a => a.ch);
 
-    // console.log(childs);
+  // console.log(childs);
 };
 
 const calculatePenalties = array => {
-    for (let i = 0; i < array.length; i++) {
-        if (array[i][nbElmMax+1] > meterMax) {
-            array[i][nbElmMax] -= Number((array[i][nbElmMax+1]- meterMax)*penality);
-        }
+  for (let i = 0; i < array.length; i++) {
+    if (array[i][nbElmMax+1] > meterMax) {
+      array[i][nbElmMax] -= Number((array[i][nbElmMax+1]- meterMax)*penality);
     }
-    array.sort((a, b) => {
-        if(a[nbElmMax]<b[nbElmMax]) return 1;
-        if(a[nbElmMax]>b[nbElmMax]) return -1;
-        return 0;
-    });
-    // console.log(array);
+  }
+  array.sort((a, b) => {
+    if(a[nbElmMax]<b[nbElmMax]) return 1;
+    if(a[nbElmMax]>b[nbElmMax]) return -1;
+    return 0;
+  });
+  // console.log(array);
 };
 
 const selectionChromo = (arrChild, arrParent) => {
-    const newArr = [];
-    const selectChromoParent = Math.ceil((arrParent.length*rapportParent));
-    const selectChromoChild = arrChild.length - selectChromoParent;
+  const newArr = [];
+  const selectChromoParent = Math.ceil((arrParent.length*rapportParent));
+  const selectChromoChild = arrChild.length - selectChromoParent;
 
-    for(let i = 0; i < selectChromoParent; i++) {
-        newArr.push(arrParent[i]);
-    }
+  for(let i = 0; i < selectChromoParent; i++) {
+    newArr.push(arrParent[i]);
+  }
 
-    for(let i = 0; i < selectChromoChild; i++) {
-        newArr.push(arrChild[i]);
-    }
-    newArr.sort((a, b) => {
-        if(a[nbElmMax]<b[nbElmMax]) return 1;
-        if(a[nbElmMax]>b[nbElmMax]) return -1;
-        return 0;
-    });
-    return newArr;
+  for(let i = 0; i < selectChromoChild; i++) {
+    newArr.push(arrChild[i]);
+  }
+  newArr.sort((a, b) => {
+    if(a[nbElmMax]<b[nbElmMax]) return 1;
+    if(a[nbElmMax]>b[nbElmMax]) return -1;
+    return 0;
+  });
+  return newArr;
 };
 
 const popArray = array => {
-    let arrayCopy = array;
-    if(arrayCopy.length === 0) {
-        return arrayCopy;
-    }
-    else {
-        for(let i =0; i<arrayCopy.length; i++) {
-            arrayCopy[i].pop();
-            arrayCopy[i].pop();
+  let arrayCopy = array;
+  if(arrayCopy.length === 0) {
+    return arrayCopy;
+  }
+  else {
+    for(let i =0; i<arrayCopy.length; i++) {
+      arrayCopy[i].pop();
+      arrayCopy[i].pop();
 
-        }
-        return arrayCopy
     }
+    return arrayCopy
+  }
 };
 
 const manageBestChromos = (arrayParent, bestChromosArray) => {
-    if (bestChromosArray.length === 10) {
-        bestChromosArray.reverse();
-        bestChromosArray.pop();
-        bestChromosArray.reverse();
-        bestChromosArray.push(arrayParent[0]);
-        return bestChromosArray;
-    }
-    else {
-        bestChromosArray.push(arrayParent[0]);
-        return bestChromosArray;
-    }
+  if (bestChromosArray.length === 10) {
+    bestChromosArray.reverse();
+    bestChromosArray.pop();
+    bestChromosArray.reverse();
+    bestChromosArray.push(arrayParent[0]);
+    return bestChromosArray;
+  }
+  else {
+    bestChromosArray.push(arrayParent[0]);
+    return bestChromosArray;
+  }
 };
 
 const calculateAverage = bestChromos => {
-    let average = 0;
-    let totValue = 0;
-    for(let i = 0; i < bestChromos.length; i++) {
-        totValue += bestChromos[i][nbElmMax];
-    }
-    average = totValue / bestChromos.length;
-    return average;
+  let average = 0;
+  let totValue = 0;
+  for(let i = 0; i < bestChromos.length; i++) {
+    totValue += bestChromos[i][nbElmMax];
+  }
+  average = totValue / bestChromos.length;
+  return average;
 };
 const cleanArray = array => {
-    let i, j, len = array.length, out = [], obj = {};
-    for (i = 0; i < len; i++) {
-        obj[array[i]] = 0;
-    }
-    for (j in obj) {
-        out.push(j);
-    }
-    return out;
+  let i, j, len = array.length, out = [], obj = {};
+  for (i = 0; i < len; i++) {
+    obj[array[i]] = 0;
+  }
+  for (j in obj) {
+    out.push(j);
+  }
+  return out;
 };
 const mainAlgo = async () => {
     let i = 0;
@@ -209,7 +211,7 @@ const mainAlgo = async () => {
     let arrParrent = init(arr);
     let bestChromos = [];
     let arrParentValueDist = [];
-       try {
+    try {
         let arrSortChild;
         let arrSortParent;
         while(i < maxIteration) {
@@ -219,30 +221,32 @@ const mainAlgo = async () => {
                 arrParrent = popArray(arrParentValueDist);
             }
             let childs = arrParrent.map(chrom => mutate(chrom, arr));
-            // console.log(childs);
             childs = childs.map((child, idx) => crossover(child, arrParrent[(idx + 1) % arrParrent.length]));
             arrSortChild = score(childs, distancesCities);
             arrSortParent = score(arrParrent, distancesCities);
             arrParentValueDist = selectionChromo(arrSortChild, arrSortParent);
             // console.log(arrParentValueDist);
-            // console.log(`iteration N° ${i}`);
+            console.log(`iteration N° ${i}`);
             bestChromos = manageBestChromos(arrParentValueDist, bestChromos);
             if(-marginError < (arrParrent[1][nbElmMax] - calculateAverage(bestChromos)) && (arrParrent[1][nbElmMax] - calculateAverage(bestChromos)) < marginError && i > maxIteration/2) {
-                // console.log(arrParrent[1][nbElmMax] - calculateAverage(bestChromos));
+                console.log(arrParrent[1][nbElmMax] - calculateAverage(bestChromos));
                 // console.log(`average triggered`);
+
                 i = maxIteration;
             }
             i++;
+
         }
     } catch (err) {
         console.log(err);
     }
 
-    console.log(`Meilleur chemin`);
-    console.log(arrParentValueDist[0]);
+    // console.log(`Meilleur chemin`);
+    // console.log(arrParentValueDist[0]);
+    return arrParentValueDist[0];
+    // console.log(arrayFull);
 };
-
 // > qsd.sort((a,c) => (a[0] < c[0]) ? -1 : 1)
 // distance = distance[[ville1, ville2].sort().join('')];
 // distanceChromo += parseInt([distancesCities].filter((dist) => departure+arrival === dist[0])[1]);
-module.exports = {mainAlgo};
+module.exports = {mainAlgo, nbElmMax};
