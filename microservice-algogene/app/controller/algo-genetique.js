@@ -85,22 +85,22 @@ const score = (childs, distancesCities) => {
               // console.log(dist);
                 if(Object.prototype.hasOwnProperty.call(distancesCities, dist) && departure+arrival === dist){
                     distanceChromo += distancesCities[dist];
-                    console.log(distancesCities[dist]+' '+departure+' '+arrival+' ');
-                    console.log(dist+'--------------------------------------------------------');
+                    // console.log(distancesCities[dist]+' '+departure+' '+arrival+' ');
+                    // console.log(dist+'--------------------------------------------------------');
                 }
                 //if departure+arrival is not repertoried, we have to search arrival+departure in the db
                 else if(Object.prototype.hasOwnProperty.call(distancesCities, dist) && arrival+departure === dist){
                     distanceChromo += distancesCities[dist];
-                    console.log(dist+'--------------------------------------------------------');
+                    // console.log(dist+'--------------------------------------------------------');
 
                 }
             }
-            console.log(arrival+'yolooooo------------------------------------------------'+departure)
+            // console.log(arrival+'yolooooo------------------------------------------------'+departure)
             departure = arrival;
         }
         childs[i].push(ressourceByChromo);
         childs[i].push(distanceChromo);
-        console.log('totaldis'+distanceChromo+ ' ress'+ressourceByChromo);
+        // console.log('totaldis'+distanceChromo+ ' ress'+ressourceByChromo);
     }
     calculatePenalties(childs);
     return res.map(a => a.ch);
