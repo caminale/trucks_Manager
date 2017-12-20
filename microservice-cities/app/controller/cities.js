@@ -17,7 +17,6 @@ const  createDBcities = async () => {
             Stock.find({})
                 .then(stocks => {
                     const x = Math.floor((Math.random() * stocks.length) + 1);
-
                     return new City({
                         name: city.name,
                         position: position,

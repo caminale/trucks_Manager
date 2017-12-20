@@ -6,6 +6,8 @@ Projet client server
 * [docker](#docker)
 * [authentification](#authentification)
 * [micro-services](#micro-services)
+* [config](#config)
+
 
 
 
@@ -130,3 +132,60 @@ algo-genetic
 In this micro-service there is an genetic algorithm, permit to optimize the travel from a  departure
 in function of distance and ressources in each cities. The purpose of this algorithm is to find the shortest path with a maximum
 amount of ressources. 
+
+#config
+
+add .env file in each directory : 
+```
+cd trucks-api-server
+touch .env
+```
+edit it and place : 
+```
+PORT=8080
+DB=mongodb://localhost/truck-api
+BASE_URL=http://127.0.0.1:8080/api
+SUFFIX_URL={ownerId}/relationships/{path}
+```
+
+```
+cd microservice-finance
+touch .env
+```
+edit it and place : 
+```
+PORT=8080
+DB=mongodb://localhost/truck-api
+BASE_URL=http://127.0.0.1:8080/api
+SUFFIX_URL={ownerId}/relationships/{path}
+```
+
+
+
+```
+cd microservice-algogene
+touch .env
+```
+edit it and place : 
+```
+PORT=8080
+DB=mongodb://localhost/truck-api
+BASE_URL=http://127.0.0.1:8080/api
+SUFFIX_URL={ownerId}/relationships/{path}
+nb_dist_cities=40
+```
+
+```
+cd microservice-cities
+touch .env
+```
+edit it and replace api_key_google : 
+```
+PORT=8080
+DB=mongodb://localhost/truck-api
+BASE_URL=http://127.0.0.1:8080/api
+SUFFIX_URL={ownerId}/relationships/{path}
+POPULATION=50000
+API_KEY_GOOGLE=XXXXXXXXXXXXXXXX
+nb_dist_cities=40
+```
