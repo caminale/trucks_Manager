@@ -8,8 +8,8 @@ const nbElmMax = 6;
 const nbChromosomes = 10;
 const meterMax = 2000000;
 const rapportParent = 0.6;
-const maxIteration = 100;
-const penality = 1/5000;// 1 ressource pour 5 km
+const maxIteration = 1000;
+const penality = 1/10000;// 1 ressource pour 5 km
 const marginError = 20;
 const db = {
   valence: 100,
@@ -180,6 +180,7 @@ const calculateAverage = bestChromos => {
   average = totValue / bestChromos.length;
   return average;
 };
+
 const cleanArray = array => {
   let i, j, len = array.length, out = [], obj = {};
   for (i = 0; i < len; i++) {
