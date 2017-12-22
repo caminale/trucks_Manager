@@ -19,7 +19,8 @@ const models = {
     Truck: require('./models/truck').model,
     City: require('./models/city').model,
     Journey: require('./models/journey').model,
-    Marker: require('./models/marker').model
+    Marker: require('./models/marker').model,
+    Substep: require('./models/subStep').model
 
 };
 
@@ -28,8 +29,8 @@ const registryTemplates = {
     trucks: require('./models/truck').registry,
     cities: require('./models/city').registry,
     journeys: require('./models/journey').registry,
-    markers: require('./models/marker').registry
-
+    markers: require('./models/marker').registry,
+    substeps: require('./models/subStep').registry
 };
 
 const adapter = new API.dbAdapters.Mongoose(models);
@@ -63,7 +64,8 @@ const db = [
     'fleets',
     'cities',
     'journeys',
-    'markers'
+    'markers',
+    'subSteps',
 ];
 
 app.options('*', (req, res) => {

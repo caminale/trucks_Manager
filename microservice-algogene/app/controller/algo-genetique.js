@@ -8,21 +8,22 @@ const nbElmMax = 6;
 const nbChromosomes = 10;
 const meterMax = 2000000;
 const rapportParent = 0.6;
-const maxIteration = 1000;
+const maxIteration = 30;
 const penality = 1/10000;// 1 ressource pour 5 km
 const marginError = 20;
-const db = {
-  valence: 100,
-  lyon: 20,
-  marseille: 50,
-  bordeaux: 500,
-  montpelier: 880,
-  strasbourg: 999,
-  brest: 25,
-  nice: 70,
-  hendaye: 115,
-  lille: 220
-};
+
+// const db = {
+//   valence: 100,
+//   lyon: 20,
+//   marseille: 50,
+//   bordeaux: 500,
+//   montpelier: 880,
+//   strasbourg: 999,
+//   brest: 25,
+//   nice: 70,
+//   hendaye: 115,
+//   lille: 220
+// };
 
 const preproc = (db) => {
     const arr = [];
@@ -85,21 +86,16 @@ const score = (childs, distancesCities) => {
               // console.log(dist);
                 if(Object.prototype.hasOwnProperty.call(distancesCities, dist) && departure+arrival === dist){
                     distanceChromo += distancesCities[dist];
-                    // console.log(distancesCities[dist]+' '+departure+' '+arrival+' ');
-                    // console.log(dist+'--------------------------------------------------------');
                 }
                 //if departure+arrival is not repertoried, we have to search arrival+departure in the db
                 else if(Object.prototype.hasOwnProperty.call(distancesCities, dist) && arrival+departure === dist){
                     distanceChromo += distancesCities[dist];
-                    // console.log(dist+'--------------------------------------------------------');
-
                 }
             }
-            // console.log(arrival+'yolooooo------------------------------------------------'+departure)
             departure = arrival;
         }
-        childs[i].push(ressourceByChromo);
-        childs[i].push(distanceChromo);
+        childs[i].push(['total_ressource',ressourceByChromo]);
+        childs[i].push(['total_dist',distanceChromo]);
         // console.log('totaldis'+distanceChromo+ ' ress'+ressourceByChromo);
     }
     calculatePenalties(childs);
@@ -250,4 +246,4 @@ const mainAlgo = async () => {
 // > qsd.sort((a,c) => (a[0] < c[0]) ? -1 : 1)
 // distance = distance[[ville1, ville2].sort().join('')];
 // distanceChromo += parseInt([distancesCities].filter((dist) => departure+arrival === dist[0])[1]);
-module.exports = {mainAlgo, nbElmMax};
+module.exports = {mainAlgo};

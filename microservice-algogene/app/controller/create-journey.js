@@ -3,7 +3,11 @@ const {createSubSteps} = require('./create-subSteps');
 
 
 const  createDBjourney = async (steps, ressources, truck) => {
-    // createSubSteps(steps[0],steps[steps.length-1]);
+    createSubSteps(steps[0],steps[steps.length-1]);
+for (let i =0;i<steps.length; i++){
+    console.log(steps.length);
+
+}
     return new Journey({
         truck: truck,
         steps: steps,

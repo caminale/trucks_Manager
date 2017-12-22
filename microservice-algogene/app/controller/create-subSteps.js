@@ -4,7 +4,7 @@ require('dotenv').config();
 
 
 const  createSubSteps =  (departure, arrival) => {
-    const url = `${process.env.URL}origin=${departure}&destination=${arrival}&key=${process.env.API_KEY_GOOGLE}`;
+    const url = `${process.env.URL}origin=${departure}&destination=${arrival}&region=fr&key=${process.env.API_KEY_GOOGLE}`;
     rp(url)
         .then(function (data) {
             const steps = JSON.parse(data).routes[0].legs[0].steps;

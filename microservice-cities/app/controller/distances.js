@@ -30,9 +30,6 @@ const distanceCities = async arr => {
 
             }
         }
-
-
-
     }
     return distances;
 };
