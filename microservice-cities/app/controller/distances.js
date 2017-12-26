@@ -3,15 +3,19 @@ const distance = bluebird.promisifyAll(require('google-distance'));
 require('dotenv').config();
 distance.apiKey = process.env.API_KEY_GOOGLE;
 
-
 const {City} = require('../models/city');
 const {Distance} = require('../models/distance');
 
 const distanceAPI = (departure, arrival) => {
-    return distance.getAsync({
-        origin: `${departure}, France`,
-        destination: `${arrival}, France`
-    });
+    try{
+        return distance.getAsync({
+            origin: `${departure}, France`,
+            destination: `${arrival}, France`
+        });
+    }
+   catch(err){
+        console.log('errr');
+   }
 };
 
 const distanceCities = async arr => {
@@ -46,7 +50,7 @@ const preproc = (db) => {
 const main = async () => {
     let reformatCities = {};
     let cities = await City.find({});
-    for (let i = 0; i < process.env.nb_dist_cities; i++) {
+    for (let i = 0; i < process.env.NB_CITIES; i++) {
         const key = cities[i].name;
         reformatCities[key] = cities[i].ressources;
     };

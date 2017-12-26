@@ -7,8 +7,8 @@ require('dotenv').config();
 const auth = require ('./routes/authenticate');
 const available_User = require ('./routes/availableUser');
 const findTruck = require ('./routes/findTruck');
-
-
+const {initStocks} = require ('../microservice-finance/index');
+const launchAlgoGenetic = require ('./routes/launch-algo-genetic');
 const APIError = API.types.Error;
 mongoose.connect(process.env.DB, {useMongoClient: true});
 
@@ -126,9 +126,16 @@ app.use('/',available_User);
 
 app.use('/',findTruck);
 
+app.use('/',launchAlgoGenetic);
+
 app.use((req, res) => {
     front.sendError(new APIError(404, undefined, 'Not Found'), req, res);
 });
-
+try{
+    initStocks();
+}
+catch (err) {
+    console.log('err for init stocks' + err);
+}
 
 app.listen(process.env.PORT);

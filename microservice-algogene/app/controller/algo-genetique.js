@@ -83,7 +83,7 @@ const score = (childs, distancesCities) => {
             arrival = childClean[j].split(',')[0];
             ressourceByChromo += Number(childClean[j].split(',')[1]);//permit to fetch only the ressources
             for(let dist in distancesCities){
-              // console.log(dist);
+                // console.log(dist);
                 if(Object.prototype.hasOwnProperty.call(distancesCities, dist) && departure+arrival === dist){
                     distanceChromo += distancesCities[dist];
                 }
@@ -101,97 +101,96 @@ const score = (childs, distancesCities) => {
     calculatePenalties(childs);
     return res.map(a => a.ch);
 
-  // console.log(childs);
+    // console.log(childs);
 };
 
 const calculatePenalties = array => {
-  for (let i = 0; i < array.length; i++) {
-    if (array[i][nbElmMax+1] > meterMax) {
-      array[i][nbElmMax] -= Number((array[i][nbElmMax+1]- meterMax)*penality);
+    for (let i = 0; i < array.length; i++) {
+        if (array[i][nbElmMax+1] > meterMax) {
+            array[i][nbElmMax] -= Number((array[i][nbElmMax+1]- meterMax)*penality);
+        }
     }
-  }
-  array.sort((a, b) => {
-    if(a[nbElmMax]<b[nbElmMax]) return 1;
-    if(a[nbElmMax]>b[nbElmMax]) return -1;
-    return 0;
-  });
-  // console.log(array);
+    array.sort((a, b) => {
+        if(a[nbElmMax]<b[nbElmMax]) return 1;
+        if(a[nbElmMax]>b[nbElmMax]) return -1;
+        return 0;
+    });
+    // console.log(array);
 };
 
 const selectionChromo = (arrChild, arrParent) => {
-  const newArr = [];
-  const selectChromoParent = Math.ceil((arrParent.length*rapportParent));
-  const selectChromoChild = arrChild.length - selectChromoParent;
+    const newArr = [];
+    const selectChromoParent = Math.ceil((arrParent.length*rapportParent));
+    const selectChromoChild = arrChild.length - selectChromoParent;
 
-  for(let i = 0; i < selectChromoParent; i++) {
-    newArr.push(arrParent[i]);
-  }
+    for(let i = 0; i < selectChromoParent; i++) {
+        newArr.push(arrParent[i]);
+    }
 
-  for(let i = 0; i < selectChromoChild; i++) {
-    newArr.push(arrChild[i]);
-  }
-  newArr.sort((a, b) => {
-    if(a[nbElmMax]<b[nbElmMax]) return 1;
-    if(a[nbElmMax]>b[nbElmMax]) return -1;
-    return 0;
-  });
-  return newArr;
+    for(let i = 0; i < selectChromoChild; i++) {
+        newArr.push(arrChild[i]);
+    }
+    newArr.sort((a, b) => {
+        if(a[nbElmMax]<b[nbElmMax]) return 1;
+        if(a[nbElmMax]>b[nbElmMax]) return -1;
+        return 0;
+    });
+    return newArr;
 };
 
 const popArray = array => {
-  let arrayCopy = array;
-  if(arrayCopy.length === 0) {
-    return arrayCopy;
-  }
-  else {
-    for(let i =0; i<arrayCopy.length; i++) {
-      arrayCopy[i].pop();
-      arrayCopy[i].pop();
-
+    let arrayCopy = array;
+    if(arrayCopy.length === 0) {
+        return arrayCopy;
     }
-    return arrayCopy
-  }
+    else {
+        for(let i =0; i<arrayCopy.length; i++) {
+            arrayCopy[i].pop();
+            arrayCopy[i].pop();
+
+        }
+        return arrayCopy
+    }
 };
 
 const manageBestChromos = (arrayParent, bestChromosArray) => {
-  if (bestChromosArray.length === 10) {
-    bestChromosArray.reverse();
-    bestChromosArray.pop();
-    bestChromosArray.reverse();
-    bestChromosArray.push(arrayParent[0]);
-    return bestChromosArray;
-  }
-  else {
-    bestChromosArray.push(arrayParent[0]);
-    return bestChromosArray;
-  }
+    if (bestChromosArray.length === 10) {
+        bestChromosArray.reverse();
+        bestChromosArray.pop();
+        bestChromosArray.reverse();
+        bestChromosArray.push(arrayParent[0]);
+        return bestChromosArray;
+    }
+    else {
+        bestChromosArray.push(arrayParent[0]);
+        return bestChromosArray;
+    }
 };
 
 const calculateAverage = bestChromos => {
-  let average = 0;
-  let totValue = 0;
-  for(let i = 0; i < bestChromos.length; i++) {
-    totValue += bestChromos[i][nbElmMax];
-  }
-  average = totValue / bestChromos.length;
-  return average;
+    let average = 0;
+    let totValue = 0;
+    for(let i = 0; i < bestChromos.length; i++) {
+        totValue += bestChromos[i][nbElmMax];
+    }
+    average = totValue / bestChromos.length;
+    return average;
 };
 
 const cleanArray = array => {
-  let i, j, len = array.length, out = [], obj = {};
-  for (i = 0; i < len; i++) {
-    obj[array[i]] = 0;
-  }
-  for (j in obj) {
-    out.push(j);
-  }
-  return out;
+    let i, j, len = array.length, out = [], obj = {};
+    for (i = 0; i < len; i++) {
+        obj[array[i]] = 0;
+    }
+    for (j in obj) {
+        out.push(j);
+    }
+    return out;
 };
 const mainAlgo = async () => {
     let i = 0;
     let reformatCities = {};
     let distancesCities = {};
-    let cities = await City.find({});
     await Distance.find({})
         .then(distances => {
             for(let i = 0; i < distances.length ; i++) {
@@ -199,10 +198,13 @@ const mainAlgo = async () => {
                 distancesCities[key] = distances[i].distance;
             }
         });
-    for(let i = 0; i < process.env.nb_dist_cities; i++) {
-        const key = cities[i].name;
-        reformatCities[key] = cities[i].ressources;
-    }
+    await City.find({})
+        .then(cities => {
+            for(let i = 0; i < 40; i++) {
+                const key = cities[i].name;
+                reformatCities[key] = cities[i].ressources;
+            }
+        });
     const arr = preproc(reformatCities);
     // console.log(arr);
     let arrParrent = init(arr);
@@ -237,9 +239,8 @@ const mainAlgo = async () => {
     } catch (err) {
         console.log(err);
     }
-
-    // console.log(`Meilleur chemin`);
-    // console.log(arrParentValueDist[0]);
+    console.log(`Meilleur chemin`);
+    console.log(arrParentValueDist[0]);
     return arrParentValueDist[0];
     // console.log(arrayFull);
 };

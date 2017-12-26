@@ -1,14 +1,24 @@
 const cities = require("all-the-cities");
 const {City} = require('../models/city');
 const {Stock} = require('../models/stocks');
+const {main} = require('./distances');
+const {Distance} = require('../models/distance');
+
 require('dotenv').config();
 
-
+const distances = () => {
+    Distance.find({})
+        .then(distances => {
+            if (distances === [] || !distances || distances.length === 0) {
+                main();
+            }
+        });
+};
 
 
 const  createDBcities = async () => {
 // return 127 cities
-    cities.filter(city => {
+    await cities.filter(city => {
         if (city.country.match('FR') && city.population > process.env.POPULATION) {
             let position = {
                 latitude: city.lat,
@@ -27,6 +37,8 @@ const  createDBcities = async () => {
                 });
         }
     });
+    distances();
+
 };
 module.exports = {createDBcities};
 
