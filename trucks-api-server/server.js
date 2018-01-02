@@ -131,11 +131,11 @@ app.use('/',launchAlgoGenetic);
 app.use((req, res) => {
     front.sendError(new APIError(404, undefined, 'Not Found'), req, res);
 });
-try{
-    initStocks();
-}
-catch (err) {
-    console.log('err for init stocks' + err);
-}
+// try{
+//     initStocks();
+// }
+// catch (err) {
+//     console.log('err for init stocks' + err);
+// }
 
 app.listen(process.env.PORT);
