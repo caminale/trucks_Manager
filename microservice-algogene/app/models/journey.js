@@ -6,7 +6,6 @@ const ObjectId = Schema.Types.ObjectId;
 const journeySchema = new Schema({
   truck: {type: ObjectId, ref: 'Truck', required: true},
   steps: [{type: String}],
-  substeps: [{type: String}],
   ressources: [{type: Number}]
 });
 

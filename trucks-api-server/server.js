@@ -7,8 +7,8 @@ require('dotenv').config();
 const auth = require ('./routes/authenticate');
 const available_User = require ('./routes/availableUser');
 const findTruck = require ('./routes/findTruck');
-
-
+const {initStocks} = require ('../microservice-finance/index');
+const launchAlgoGenetic = require ('./routes/launch-algo-genetic');
 const APIError = API.types.Error;
 mongoose.connect(process.env.DB, {useMongoClient: true});
 
@@ -19,7 +19,8 @@ const models = {
     Truck: require('./models/truck').model,
     City: require('./models/city').model,
     Journey: require('./models/journey').model,
-    Marker: require('./models/marker').model
+    Marker: require('./models/marker').model,
+    Substep: require('./models/subStep').model
 
 };
 
@@ -28,8 +29,8 @@ const registryTemplates = {
     trucks: require('./models/truck').registry,
     cities: require('./models/city').registry,
     journeys: require('./models/journey').registry,
-    markers: require('./models/marker').registry
-
+    markers: require('./models/marker').registry,
+    substeps: require('./models/subStep').registry
 };
 
 const adapter = new API.dbAdapters.Mongoose(models);
@@ -63,7 +64,8 @@ const db = [
     'fleets',
     'cities',
     'journeys',
-    'markers'
+    'markers',
+    'subSteps',
 ];
 
 app.options('*', (req, res) => {
@@ -124,9 +126,16 @@ app.use('/',available_User);
 
 app.use('/',findTruck);
 
+app.use('/',launchAlgoGenetic);
+
 app.use((req, res) => {
     front.sendError(new APIError(404, undefined, 'Not Found'), req, res);
 });
-
+// try{
+//     initStocks();
+// }
+// catch (err) {
+//     console.log('err for init stocks' + err);
+// }
 
 app.listen(process.env.PORT);
