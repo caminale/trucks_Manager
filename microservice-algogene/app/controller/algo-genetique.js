@@ -25,6 +25,7 @@ const db = {
   hendaye: 115,
   lille: 220
 };
+
 const distanceAPI = (departure, arrival) => {
 
   return distance.getAsync({
@@ -32,6 +33,7 @@ const distanceAPI = (departure, arrival) => {
     destination: `${arrival}, France`
   });
 };
+
 const preproc = (db) => {
   const arr = [];
   for (const key in db) {
@@ -63,8 +65,6 @@ const mutate = (chromosome, arr) => {
 };
 
 const crossover = (child, parent) => {
-  // console.log('cross');
-  // console.log(parent);
   return child.map((gene, idx) => {
     if (Math.random() <= 0.3) {
       return parent[idx];
@@ -81,7 +81,7 @@ const score = (childs, distancesCities) => {
       val: -Infinity,
       dist: Infinity
     }
-  })
+  });
   for(let i = 0; i < childs.length; i++) {
     let ressourceByChromo = 0;
     let departure = 'paris';
@@ -230,7 +230,6 @@ const mainAlgo = async () => {
       arrSortChild = score(childs, distancesCities);
       arrSortParent = score(arrParrent, distancesCities);
       arrParentValueDist = selectionChromo(arrSortChild, arrSortParent);
-      // console.log(arrParentValueDist);
       console.log(`iteration N° ${i}`);
       bestChromos = manageBestChromos(arrParentValueDist, bestChromos);
       if(-marginError < (arrParrent[1][nbElmMax] - calculateAverage(bestChromos)) && (arrParrent[1][nbElmMax] - calculateAverage(bestChromos)) < marginError && i > maxIteration/2) {
