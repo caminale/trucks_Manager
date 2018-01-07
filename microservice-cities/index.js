@@ -1,26 +1,38 @@
 const mongoose = require('mongoose');
+const app = require('express')();
+const logger = require('morgan');
+const bodyParser = require("body-parser");
+const initCities = require('./app/routes/init');
+
 require('dotenv').config();
-const {City} = require('./app/models/city');
-const {createDBcities} = require('./app/controller/cities');
 
 mongoose.connect(process.env.DB, {useMongoClient: true});
 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+    res.header('Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept, Cache-Control');
+    res.header('Access-Control-Allow-Methods',
+        'POST, GET, PATCH, DELETE, OPTIONS');
+    next();
+});
 
-const initCities = async () => {
-    //test if city is empty or not to initiate value
-    await cities();
-};
-
-
-const cities = () => {
-    City.find({})
-        .then(city => {
-            if (city === [] || !city || city.length === 0) {
-                //permit to create cities records and launch distance api
-                createDBcities();
-            }
-        });
-};
+//Here we are configuring express to use body-parser as middle-ware, permit to have argument sent during auth.
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(logger('dev'));
 
 
-module.exports = {initCities};
+app.use('/',initCities);
+
+
+app.listen(process.env.PORT_CITIES);
+
+
+
+
+
+
+
+
+

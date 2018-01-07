@@ -1,18 +1,28 @@
+const app = require('express')();
+const logger = require('morgan');
+const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
-require('dotenv').config();
-const {mainAlgo} = require('./app/controller/algo-genetique');
-const {createDBjourney} = require('./app/controller/create-journey');
+const algoGene = require('./app/routes/algoGene');
 
+require('dotenv').config();
 mongoose.connect(process.env.DB, {useMongoClient: true});
 
-const startAlgo = async (trucks) => {
-  let journey = await mainAlgo();
-  let steps = [];
-  let ressources = [];
-  for(let i = 0; i < journey.length - 2; i++) {
-    steps.push(journey[i][0]);
-    ressources.push(journey[i][1]);
-  }
-  createDBjourney(steps, ressources, trucks);
-};
-module.exports = {startAlgo};
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+    res.header('Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept, Cache-Control');
+    res.header('Access-Control-Allow-Methods',
+        'POST, GET, PATCH, DELETE, OPTIONS');
+    next();
+});
+
+//Here we are configuring express to use body-parser as middle-ware, permit to have argument sent during auth.
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(logger('dev'));
+
+
+app.use('/',algoGene);
+
+
+app.listen(process.env.PORT);

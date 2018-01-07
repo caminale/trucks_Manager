@@ -1,9 +1,12 @@
 const yahooFinance = require('yahoo-finance');
 const mongoose = require('mongoose');
-require('dotenv').config();
-mongoose.Promise = require('bluebird');
+const rp = require('request-promise');
 const {createOrUpdateStock} = require('./app/controllers/stocks');
 const {initCities} = require('../microservice-cities/index');
+
+require('dotenv').config();
+mongoose.Promise = require('bluebird');
+
 mongoose.connect(process.env.DB, {useMongoClient: true});
 
 const stocks = [
@@ -35,10 +38,12 @@ const getValue = async symbol => {
         symbol,
         modules: ['financialData']
     });
+    console.log(stock.financialData.currentPrice)
     return stock.financialData.currentPrice;
 };
 
 const initStocks = async () => {
+    console.log('init stocks');
     const valuesPromises = stocks.map(a => getValue(a));
     const results = await Promise.all(valuesPromises);
     const formattedResults = stocks.map((a, idx) => {
@@ -47,10 +52,13 @@ const initStocks = async () => {
     stocks.map((a, idx) => {
         createOrUpdateStock(a, results[idx]);
     });
-    initCities();
+    const url = `${process.env.CITIES_URL}`;
+    rp(url);
+
     // console.log(formattedResults);
-    setInterval(initStocks, 300000);
 };
 
+initStocks();
 
-module.exports = {initStocks};
+setInterval(initStocks, 30000);
+

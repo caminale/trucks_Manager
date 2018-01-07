@@ -7,8 +7,10 @@
     "all-the-cities": "^2.0.0",
     "bluebird": "^3.5.1",
     "dotenv": "^4.0.0",
+    "express": "^4.16.2",
     "google-distance": "^1.0.1",
-    "mongoose": "^4.13.7"
+    "mongoose": "^4.13.7",
+    "morgan": "^1.9.0"
   },
   "devDependencies": {},
   "scripts": {
