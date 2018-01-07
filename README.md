@@ -142,10 +142,15 @@ touch .env
 ```
 edit it and place : 
 ```
-PORT=8080
+PORT_SERVE=8080
 DB=mongodb://localhost/truck-api
 BASE_URL=http://127.0.0.1:8080/api
 SUFFIX_URL={ownerId}/relationships/{path}
+NB_CITIES=40
+API_KEY_GOOGLE=xxxxxxxxxxxxxxxx
+URL=https://maps.googleapis.com/maps/api/directions/json?
+POPULATION=50000
+ALGOGENE_URL=http://127.0.0.1:2020/algoGene?truck=
 ```
 
 ```
@@ -154,9 +159,9 @@ touch .env
 ```
 edit it and place : 
 ```
-PORT=8080
+PORT_FINANCE=6060
+CITIES_URL=http://127.0.0.1:3030/initCities
 DB=mongodb://localhost/truck-api
-BASE_URL=http://127.0.0.1:8080/api
 SUFFIX_URL={ownerId}/relationships/{path}
 ```
 
@@ -168,11 +173,12 @@ touch .env
 ```
 edit it and place : 
 ```
-PORT=8080
+PORT=2020
 DB=mongodb://localhost/truck-api
 BASE_URL=http://127.0.0.1:8080/api
-SUFFIX_URL={ownerId}/relationships/{path}
-nb_dist_cities=40
+NB_CITIES=40
+API_KEY_GOOGLE=xxxxxxxxxxxxxxxxx
+URL=https://maps.googleapis.com/maps/api/directions/json?
 ```
 
 ```
@@ -181,11 +187,10 @@ touch .env
 ```
 edit it and replace api_key_google : 
 ```
-PORT=8080
+PORT_CITIES=3030
 DB=mongodb://localhost/truck-api
-BASE_URL=http://127.0.0.1:8080/api
 SUFFIX_URL={ownerId}/relationships/{path}
 POPULATION=50000
-API_KEY_GOOGLE=XXXXXXXXXXXXXXXX
+API_KEY_GOOGLE=xxxxxxxxxxxxxxxxx
 nb_dist_cities=40
 ```
