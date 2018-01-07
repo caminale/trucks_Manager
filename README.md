@@ -133,7 +133,8 @@ In this micro-service there is an genetic algorithm, permit to optimize the trav
 in function of distance and ressources in each cities. The purpose of this algorithm is to find the shortest path with a maximum
 amount of ressources. 
 
-#config
+dotenv config
+------------------
 
 add .env file in each directory : 
 ```
