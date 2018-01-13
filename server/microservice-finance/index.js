@@ -1,8 +1,8 @@
 const yahooFinance = require('yahoo-finance');
 const mongoose = require('mongoose');
-const rp = require('request-promise');
+const request = require('request');
 const {createOrUpdateStock} = require('./app/controllers/stocks');
-const {initCities} = require('../microservice-cities/index');
+const {City} = require('./app/models/city');
 
 require('dotenv').config();
 mongoose.Promise = require('bluebird');
@@ -38,7 +38,7 @@ const getValue = async symbol => {
         symbol,
         modules: ['financialData']
     });
-    console.log(stock.financialData.currentPrice)
+    console.log(stock.financialData.currentPrice);
     return stock.financialData.currentPrice;
 };
 
@@ -52,13 +52,33 @@ const initStocks = async () => {
     stocks.map((a, idx) => {
         createOrUpdateStock(a, results[idx]);
     });
-    const url = `${process.env.CITIES_URL}`;
-    rp(url);
+
+    await initCitiesDist();
+
+    const url = {
+        headers: {
+            'Connection': 'keep-alive'
+        },
+        uri: `${process.env.CITIES_URL}`
+    };
+    // await rp(url);
 
     // console.log(formattedResults);
 };
-
+const initCitiesDist = () => {
+    City.find({})
+        .then(city => {
+            if (city === [] || !city || city.length === 0) {
+                console.log('call cities');
+                request
+                    .get(`${process.env.CITIES_URL}`)
+                    .on('error', function(err) {
+                        console.log(err)
+                    });
+            }
+        });
+};
 initStocks();
 
-setInterval(initStocks, 30000);
+// setInterval(initStocks, 30000);
 

@@ -9,7 +9,7 @@ require('dotenv').config();
 mongoose.connect(process.env.DB, {useMongoClient: true});
 
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+    res.setHeader('Access-Control-Allow-Origin', 'Connection: keep-alive','http://localhost:4200');
     res.header('Access-Control-Allow-Headers',
         'Origin, X-Requested-With, Content-Type, Accept, Cache-Control');
     res.header('Access-Control-Allow-Methods',

@@ -1,5 +1,4 @@
 const apiRoutes = require('express').Router();
-const {startAlgo} = require ('../../microservice-algogene/index');
 const rp = require('request-promise');
 
 const models = {

@@ -4,6 +4,7 @@ const {SubSteps} = require('../models/subSteps');
 
 
 const  createDBjourney = async (steps, ressources, truck) => {
+    console.log("init steps");
     manageSubSteps(steps);
     return new Journey({
         truck: truck,

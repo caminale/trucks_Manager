@@ -3,6 +3,7 @@ const {mainAlgo} = require('../controller/algo-genetique');
 const {createDBjourney} = require('../controller/create-journey');
 
 apiRoutes.get('/algoGene', async function(req, res) {
+
         const trucks = req.query.truck;
         console.log(trucks);
         let journey = await mainAlgo();

@@ -50,7 +50,7 @@ const preproc = (db) => {
 const main = async () => {
     let reformatCities = {};
     let cities = await City.find({});
-    for (let i = 0; i < process.env.NB_CITIES; i++) {
+    for (let i = 0; i < process.env.nb_dist_cities; i++) {
         const key = cities[i].name;
         reformatCities[key] = cities[i].ressources;
     };

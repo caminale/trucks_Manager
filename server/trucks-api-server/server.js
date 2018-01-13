@@ -43,7 +43,7 @@ const front = new API.httpStrategies.Express(controller, docs);
 const apiReqHandler = front.apiRequest.bind(front);
 
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+    res.setHeader('Access-Control-Allow-Origin',"*");
     res.header('Access-Control-Allow-Headers',
         'Origin, X-Requested-With, Content-Type, Accept, Cache-Control');
     res.header('Access-Control-Allow-Methods',

@@ -1,35 +1,69 @@
 version: '3'
 services:
   api:
-    build: ./trucks-api-server
+    build: ./server/trucks-api-server
     depends_on:
       - db
     environment:
       - DB=mongodb://db:27017/truck-api
-      - PORT=8080
+      - PORT_SERVE=8080
       - BASE_URL=http://127.0.0.1:8080/api
       - SUFFIX_URL={ownerId}/relationships/{path}
+      - ALGOGENE_URL=http://genetique:2020/algoGene?truck=
+      - FRONT_URL=http://front:80
     ports:
-      - "1337:8080"
+      - "8080:8080"
+    links:
+      - finance:finance
+      - genetique:genetique
 
   finance:
-    build: ./microservice-finance
+    build: ./server/microservice-finance
     dns: 8.8.8.8
     depends_on:
       - db
     environment:
       - DB=mongodb://db:27017/truck-api
-
+      - PORT_FINANCE=6060
+      - CITIES_URL=http://city:3030/initCities
+    links:
+      - genetique:genetique
+      - city:city
 
   genetique:
-    build: ./microservice-algogene
+    build: ./server/microservice-algogene
     dns: 8.8.8.8
     depends_on:
       - db
     environment:
       - DB=mongodb://db:27017/truck-api
+      - PORT=2020
+      - URL=https://maps.googleapis.com/maps/api/directions/json?
+      - API_KEY_GOOGLE=AIzaSyB1GSM_Uhbpv-TZoxWzlDztkiZAsocuCZs
+      - NB_CITIES=40
+
+
+  city:
+    build: ./server/microservice-cities
+    dns: 8.8.8.8
+    depends_on:
+      - db
+    environment:
+      - PORT_CITIES=3030
+      - DB=mongodb://db:27017/truck-api
+      - POPULATION=50000
+      - API_KEY_GOOGLE=AIzaSyB1GSM_Uhbpv-TZoxWzlDztkiZAsocuCZs
+      - nb_dist_cities=10
 
   db:
    image: mongo
    ports:
      - "27027:27017"
+
+  front:
+   build: ./client/front-trucks
+   dns: 8.8.8.8
+   links:
+     - api:backend
+   ports:
+     - "80:80"
