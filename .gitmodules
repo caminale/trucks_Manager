@@ -1,0 +1,3 @@
+[submodule "front-trucks"]
+	path = client/front-trucks
+	url = https://github.com/caminale/front-trucks.git

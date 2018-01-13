@@ -1,0 +1,65 @@
+<div class="ui center grid">
+  <div class="column sixteen wide">
+    <div class="menu">
+      {{map/nav-bar logout="logout"}}
+      <br>
+      <div class="panel ui grid">
+        <div class="five wide column">
+          <h2>Hello, please set your parameters:</h2>
+          {{map/input-form}}
+          <br>
+          <div class="ui horizontal divider">
+            Truck monitoring
+          </div>
+
+          <div class="ui statistics">
+            <div class=" statistic">
+              <div class="value">
+                2
+              </div>
+              <div class="label">
+                Truck delivering
+              </div>
+            </div>
+            <div class="statistic">
+              <div class="value">
+                1
+              </div>
+              <div class="label">
+                TRUCK STANDBY
+              </div>
+            </div>
+            <div class="statistic">
+              <div class="value">
+                788
+              </div>
+              <div class="label">
+                GEM earned
+              </div>
+            </div>
+          </div>
+          <br>
+          <br>
+
+          <div class="ui one column centered grid">
+            <div class="column">
+              <h3>A) Truck status delivering</h3>
+              {{tables/table-truck model=model.truck}}
+              <h3>B) Truck status standby</h3>
+              {{tables/table-truck model=model.truck}}
+            </div>
+            <br>
+          </div>
+          <br>
+          <br>
+          {{#link-to 'table-truck-page'}}<button class="ui grey basic button" type="submit">Manage your Trucks</button>{{/link-to}}
+        </div>
+        <div class="eleven wide column">
+          {{map/google-map  markers=model.mapMarkers subStep=model.subStep id="map"}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{outlet}}

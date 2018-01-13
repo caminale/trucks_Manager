@@ -1,0 +1,6 @@
+{{#g-map lat=latitude lng=longitude zoom=myZoom as |context|}}
+  {{g-map-marker context lat=lat lng=lng icon=myIcon}}
+{{/g-map}}
+<button class="ui positive basic button" type="submit" {{action 'simulationMarkers'}}>Launch the truck's simulation</button>
+
+{{yield}}
