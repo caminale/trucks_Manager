@@ -29,7 +29,7 @@ module.exports = function(environment) {
       apiKey: 'AIzaSyBEcpyEZQXGI_b60n4W0CBYQ2U2a1EWMIU',
     },
     APP: {
-      API_HOST: 'http://localhost:8080',
+      API_HOST: 'http://localhost:1234',
       // Here you can pass flags/options to your application instance
       // when it is created
     },
@@ -50,8 +50,6 @@ module.exports = function(environment) {
 
 
   if (environment === 'development') {
-
-    // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
@@ -70,6 +68,8 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
+    ENV.APP.API_HOST = 'http://api.caminaleloic.ovh';
+
     // here you can enable a production-specific feature
   }
 

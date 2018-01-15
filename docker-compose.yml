@@ -6,13 +6,11 @@ services:
       - db
     environment:
       - DB=mongodb://db:27017/truck-api
-      - PORT_SERVE=8080
-      - BASE_URL=http://127.0.0.1:8080/api
+      - PORT_SERVE=1234
+      - BASE_URL=http://127.0.0.1:1234/api
       - SUFFIX_URL={ownerId}/relationships/{path}
       - ALGOGENE_URL=http://genetique:2020/algoGene?truck=
       - FRONT_URL=http://front:80
-    ports:
-      - "8080:8080"
     links:
       - finance:finance
       - genetique:genetique
@@ -42,7 +40,6 @@ services:
       - API_KEY_GOOGLE=AIzaSyB1GSM_Uhbpv-TZoxWzlDztkiZAsocuCZs
       - NB_CITIES=40
 
-
   city:
     build: ./server/microservice-cities
     dns: 8.8.8.8
@@ -56,14 +53,21 @@ services:
       - nb_dist_cities=10
 
   db:
-   image: mongo
-   ports:
-     - "27027:27017"
+    image: mongo
 
   front:
-   build: ./client/front-trucks
-   dns: 8.8.8.8
-   links:
-     - api:backend
-   ports:
-     - "80:80"
+    build: ./client/front-trucks
+    dns: 8.8.8.8
+    links:
+      - api:backend
+
+  nginx:
+    build: ./server/nginx-proxy
+    ports:
+      - 80:80
+    links:
+      - front:front
+      - api:api
+    depends_on:
+      - front
+      - api
