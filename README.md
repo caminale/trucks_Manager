@@ -68,41 +68,7 @@ Second step is to run the images, to create a container :
 ```
 docker run -p 27017:27017 -v /opt/mongodb/db:/data/db --name my-mongo-dev -d mongo mongod --auth
 ```
-create user admin
-------------------
 
-
-If you want to create any user : 
-
-The docker exec command runs a new command in a running container, permit us to launch client mongo in the container.
-
-```
-docker exec -it my-mongo-dev mongo
-```
-create a super-admin which permit to create/manage other user (writer/reader) 
-------------------
-
-```
-use admin
-
-db.createUser({user: "camelot", pwd: "0205", roles: [{role: "userAdminAnyDatabase", db: "admin"}]})
-
-```
-add user for our db(w+r) :
-------------------
-
-first you need to launch mongo client with the super-admin :
-```
-mongo <ip_server> -u siteUserAdmin -p unPasswordQuiVaBien --authenticationDatabase admin
-```
-Then we switch to our db, which we want to use here truck-api
-
-```
-use truck-api
-
-db.createUser({user: "camelot", pwd: "0205", roles: ["dbOwner"]})
-
-```
 commands
 ------------------
 
