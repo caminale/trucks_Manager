@@ -17,15 +17,26 @@ Projet client server
 
 installation project
 ------------------
-To start the back :
+
+To download the project : 
 ```
-cd <project-name>
+git clone https://github.com/caminale/trucks_Manager.git
+cd trucks_Manager/client/front_trucks
+git submodule update --init --recursive
+```
+To start the back and the front in docker :
+```
+cd trucks_Manager/serveur
 docker-compose up
 ```
-It will launch 2 microservice : 
+It will launch 6 containers : 
+*3 microservice :
     - yahoo-finance
     - algo-genetic
-    - serve connected to the front
+    - cities
+ *THe back connected to the front
+ *The ember container on the port 80 
+ *and the nginx proxy-pass permit to redirect url of the backend and the frontend (for production)
     
     
     
