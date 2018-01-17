@@ -5,6 +5,7 @@ Projet client server
 # Contents
 * [docker](#docker)
 * [authentification](#authentification)
+* [front-end](#front-end)
 * [micro-services](#micro-services)
 * [config](#config)
 
@@ -114,6 +115,13 @@ i.e pemit to redirect the user on private route.
  
 For more explanation you can take a look at this tuto, (it helped us a lot for the authentification) : 
 [ici](https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens)
+
+# front-end
+For the front-end of our application, we used EmberJS which is an open-source JavaScript framework based on a Model-View-viewmodel pattern.
+This framework is pretty tough at first but saves a lot of time for the configuration part, it also has an almost perfect documentation and a good slack community which was very appreciable during dev.
+After authentification, the user is redirected to the dashboard tab where he can see a list of the trucks he has and if they are deivering or not. He also ha access to the map where he can see where his delivering trucks are.
+He can launch a new truck using the launching button, switch to the table tab where he can visualize all the cities, users and trucks, he can also add, update and delete some trucks.
+The sign out tab allow him to sign out front the truck manager.
 
 
 
