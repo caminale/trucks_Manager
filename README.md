@@ -37,8 +37,22 @@ It will launch 6 containers :
  *THe back connected to the front
  *The ember container on the port 80 
  *and the nginx proxy-pass permit to redirect url of the backend and the frontend (for production)
-    
-    
+
+
+To pass all containers in services and in  docker stack :
+------------------
+
+* Initialize a swarm :
+```
+docker swarm init
+``` 
+* Create a stack 
+```
+docker-compose build
+docker-compose push
+docker stack deploy --compose-file docker-compose.yml trucks_stack
+``` 
+
     
 if docker compose is not installed click [here](https://docs.docker.com/compose/install/)
 

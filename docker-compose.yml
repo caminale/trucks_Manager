@@ -1,6 +1,7 @@
 version: '3'
 services:
   api:
+    image: 127.0.0.1:5000/api
     build: ./server/trucks-api-server
     depends_on:
       - db
@@ -16,6 +17,7 @@ services:
       - genetique:genetique
 
   finance:
+    image: 127.0.0.1:5000/finance
     build: ./server/microservice-finance
     dns: 8.8.8.8
     depends_on:
@@ -29,6 +31,7 @@ services:
       - city:city
 
   genetique:
+    image: 127.0.0.1:5000/genetique
     build: ./server/microservice-algogene
     dns: 8.8.8.8
     depends_on:
@@ -41,6 +44,7 @@ services:
       - NB_CITIES=40
 
   city:
+    image: 127.0.0.1:5000/city
     build: ./server/microservice-cities
     dns: 8.8.8.8
     depends_on:
@@ -56,12 +60,16 @@ services:
     image: mongo
 
   front:
+    image: 127.0.0.1:5000/front
     build: ./client/front-trucks
     dns: 8.8.8.8
+    depends_on:
+      - api
     links:
-      - api:backend
+      - api:api
 
   nginx:
+    image: 127.0.0.1:5000/nginx
     build: ./server/nginx-proxy
     ports:
       - 80:80
